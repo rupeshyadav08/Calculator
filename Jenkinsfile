@@ -1,10 +1,13 @@
 pipeline {
-    agent none 
+    agent any
+    tools{
+        dockerTool 'myDocker'
+    }
     stages {
         stage('Build') { 
             agent {
                 docker
-                {
+                {   
                     image 'python:2-alpine' 
                 }
             }
