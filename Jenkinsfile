@@ -13,7 +13,6 @@ pipeline {
             steps {
                 sh 'python -m py_compile sources/add2vals.py sources/calc.py'
                 stash(name: 'compiled-results', includes: 'sources/*.py*')
-                echo 'Done with the building stage'
             }
         }
         stage('Test') {
@@ -28,7 +27,6 @@ pipeline {
             post {
                 always {
                     junit 'test-reports/results.xml'
-                    echo 'Done with the testing satge'
                 }
             }
         }
@@ -48,7 +46,6 @@ pipeline {
                 success {
                     archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
                     sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
-                    echo 'Delivered app'
                 }
             }
         }
